@@ -12,6 +12,7 @@ void setTimer0(enum t0_prescaler PS) {
 
 void setTimer0PS(enum t0_prescaler ps) { TCCR0B = ps; };
 
+#ifdef POLOLU
 // Timer0 overflow interruption, checks enabled steppers setep's left and
 // moves them accordingly until there is no one left.
 ISR(TIMER0_OVF_vect, ISR_NOBLOCK) {
@@ -52,3 +53,4 @@ ISR(TIMER0_OVF_vect, ISR_NOBLOCK) {
     }
   }
 }
+#endif
