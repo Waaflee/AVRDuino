@@ -1,6 +1,6 @@
 #include "core.h"
 #define DIGITAL
-//#define ANALOG
+#define ANALOG
 
 #ifdef DIGITAL
 // int pinout[] = {DDD0, DDD1, DDD2, DDD3, DDD4, DDD5, DDD6,
@@ -67,5 +67,27 @@ int readDPin(int pin) {
 #endif
 
 #ifdef ANALOG
-// int pinA[] = {PORTC0, PORTC1, PORTC2, PORTC3, PORTC4, PORTC5};
+int pinA[] = {PORTC0, PORTC1, PORTC2, PORTC3, PORTC4, PORTC5};
 #endif
+
+void setPCInt(uint8_t pin) {
+  uint8_t ctrlReg;
+  int *mask;
+
+  if (pin >= 8 && pin <= 13) {
+    ctrlReg = PCIE0;
+    mask = (int *)&PCMSK0;
+  } else if (pin >= 0 && pin <= 7) {
+    ctrlReg = PCIE2;
+    mask = (int *)&PCMSK2;
+  } else if (pin >= 14 && pin <= 20) {
+    ctrlReg = PCIE1;
+    mask = (int *)&PCMSK1;
+  }
+  PCICR = _BV(ctrlReg);
+  if (pin >= 14) {
+    *mask = _BV(pinA[pin - 14]);
+  } else {
+    *mask = _BV(pinD[pin]);
+  }
+}
