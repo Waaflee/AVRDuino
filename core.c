@@ -80,10 +80,10 @@ void setPCInt(uint8_t pin) {
     ctrlReg = PCIE1;
     mask = (int *)&PCMSK1;
   }
-  PCICR = _BV(ctrlReg);
+  PCICR |= _BV(ctrlReg);
   if (pin >= 14) {
-    *mask = _BV(pinA[pin - 14]);
+    *mask |= _BV(pinA[pin - 14]);
   } else {
-    *mask = _BV(pinD[pin]);
+    *mask |= _BV(pinD[pin]);
   }
 }

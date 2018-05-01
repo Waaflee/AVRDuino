@@ -91,3 +91,9 @@ void rotateNSteps(int n, STEPPER *drive, int dir) {
     pinOff(drive->motor->dir);
   }
 }
+
+void stopPololu(STEPPER *drive) {
+  drive->motor->stepps = 0;
+  pinOff(drive->motor->enable);
+  drive->enabled = FALSE;
+}

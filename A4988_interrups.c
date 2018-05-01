@@ -1,4 +1,5 @@
 #include "A4988_interrups.h"
+// #define POLOLU
 void setTimer0(enum t0_prescaler PS) {
   // Set timer to click at F_CPU / PS.
   TCCR0B |= PS;

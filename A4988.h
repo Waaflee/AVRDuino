@@ -50,4 +50,6 @@ A4988 newPololuFA(DriveArray array);
 void setSpeed(int speed, STEPPER *drive);
 void rotateNSteps(int n, STEPPER *drive, int dir);
 
+void stopPololu(STEPPER *drive);
+
 #endif
