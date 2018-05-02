@@ -83,3 +83,8 @@ void setPCInt(uint8_t pin) {
     *mask |= _BV(pinD[pin]);
   }
 }
+
+void setINT(uint8_t pin, enum EI_TRIGGER trigger) {
+  EICRA |= trigger;
+  EIMSK |= _BV(pin == 2 ? INT0 : INT1);
+}
