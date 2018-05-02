@@ -27,7 +27,33 @@ ISR(TIMER0_OVF_vect, ISR_NOBLOCK) {
       if (PAParray[i]->motor->stepps > 0) {
         // Calculates amount of overflows until next stepp accordingly to
         // current stepper's RPM
-        delay = (60.0 / (float)PAParray[i]->motor->RPM) * 61.0;
+        if (PAParray[i]->motor->stepps > PAParray[i]->motor->accelStepps[1]) {
+
+          delay = (60.0 / (float)((float)PAParray[i]->motor->RPM -
+                                  ((float)PAParray[i]->motor->RPM /
+                                   (float)PAParray[i]->motor->accelStepps[0]) *
+                                      (PAParray[i]->motor->stepps -
+                                       PAParray[i]->motor->accelStepps[1]))) *
+                  61.0;
+
+        } else if (PAParray[i]->motor->stepps <=
+                       PAParray[i]->motor->accelStepps[1] &&
+                   PAParray[i]->motor->stepps >=
+                       PAParray[i]->motor->accelStepps[0]) {
+
+          delay = (60.0 / (float)PAParray[i]->motor->RPM) * 61.0;
+
+        } else if (PAParray[i]->motor->stepps <
+                   PAParray[i]->motor->accelStepps[0]) {
+
+          delay = (60.0 / (float)(((float)PAParray[i]->motor->RPM /
+                                   (float)PAParray[i]->motor->accelStepps[0]) *
+                                  (PAParray[i]->motor->stepps))) *
+                  61.0;
+
+        } else {
+          delay = (60.0 / (float)PAParray[i]->motor->RPM) * 61.0;
+        }
         // in order to emulate a square shaped wave, the stepper's step pin will
         // turn on in the middle of the dealy and turn off again at it's end.
         if (count[i] >= delay / 2) {

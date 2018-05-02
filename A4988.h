@@ -21,6 +21,7 @@ typedef struct a4988 {
         double degrees_per_step;
         int RPM;
         int stepps;
+        int accelStepps[2];
         int location;
         int MaxSteps;
         uint8_t direction;
