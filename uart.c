@@ -2,6 +2,7 @@
 
 void UART_init(void) {
   UBRR0 = F_CPU / 16 / BAUD - 1;
+  UCSR0A = 0;
   UCSR0B = (1 << RXEN0) | (1 << TXEN0);
   UCSR0C = (1 << USBS0) | (3 << UCSZ00);
 }
