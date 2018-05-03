@@ -53,6 +53,10 @@ void checkData(char data[]) {
   case 'b':
     stopPololu(PAParray[atoi(&data[1])]);
     break;
+  case 'w':
+    printf("PAP[%s] located in: %d\n", &data[1],
+           PAParray[atoi(&data[1])]->motor->location);
+    break;
   }
 }
 
@@ -72,7 +76,8 @@ ISR(USART_RX_vect) {
     printf("%s\n",
            "rotateNSteps:\t r<motor(0-3)><direction(f|b)>:<int stepps>");
     printf("%s\n", "setSpeed:\t s<motor(0-3)>::<int RPM>");
-    printf("%s\n", "stop:\t\t b<motor(0-3)");
+    printf("%s\n", "stop:\t\t b<motor(0-3)>");
+    printf("%s\n", "where:\t\t w<motor(0-3)>");
     printf("%s\n", "to run command append 'C'");
     printf("%s\n", "to clear command put B");
     break;

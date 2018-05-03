@@ -83,7 +83,7 @@ void rotateNSteps(int n, STEPPER *drive, int dir) {
   drive->motor->stepps = n;
   // float ratio = (float)drive->motor->RPM / (float)n;
   // uint8_t accel;
-  int accel = n / 4;
+  int accel = n / 4 > 15 ? 15 : n / 4;
   // if (ratio > 1) {
   //   accel = ratio + 5;
   //   accel = accel > (float)n / 4 ? (float)n / 4 : accel;
@@ -91,7 +91,6 @@ void rotateNSteps(int n, STEPPER *drive, int dir) {
   //   accel = ratio * 25;
   //   accel = accel < 15 ? 15 : accel;
   // }
-  accel = 10;
   drive->motor->accelStepps[1] = n - accel;
   drive->motor->accelStepps[0] = accel;
   pinOn(drive->motor->enable);
@@ -136,14 +135,14 @@ void raceEnd(uint8_t drive, uint8_t which) {
   stopPololu(PAParray[drive]);
   if (!drivesInit.onSetup) {
     /* code */
-    setSpeed(60, PAParray[drive]);
+    setSpeed(180, PAParray[drive]);
     rotateNSteps(4, PAParray[drive], !PAParray[drive]->motor->direction);
   }
 }
 void PAPsInit(void) {
   drivesInit.onSetup = TRUE;
   for (uint8_t i = 0; i < NUM_STEPPERS; i++) {
-    setSpeed(300, PAParray[i]);
+    setSpeed(600, PAParray[i]);
     rotateNSteps(INIT_STEPPS, PAParray[i], FORWARD);
   }
 }
