@@ -61,6 +61,7 @@ void setPololuFA(pololu *drive, DriveArray array) {
 
 A4988 newPololuFA(DriveArray array) {
   pololu drive;
+  memset(&drive, 0, sizeof drive);
   drive.dir = (int)array[0];
   drive.step = (int)array[1];
   drive.enable = (int)array[2];
@@ -83,7 +84,7 @@ void rotateNSteps(int n, STEPPER *drive, int dir) {
   drive->motor->stepps = n;
   // float ratio = (float)drive->motor->RPM / (float)n;
   // uint8_t accel;
-  int accel = n / 4 > 15 ? 15 : n / 4;
+  int accel = n / 4 > 25 ? 25 : n / 4;
   // if (ratio > 1) {
   //   accel = ratio + 5;
   //   accel = accel > (float)n / 4 ? (float)n / 4 : accel;
@@ -104,7 +105,6 @@ void rotateNSteps(int n, STEPPER *drive, int dir) {
   }
 }
 
-#include "uart.h"
 void goToabs(int position, STEPPER *drive) {
   int actual = drive->motor->location;
   int diff = actual - position;

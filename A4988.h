@@ -5,6 +5,7 @@
 #define END 1
 #include "core.h"
 #include "A4988_interrups.h"
+#include "uart.h"
 #include "../../variables.h"
 
 typedef struct drives_init {
@@ -56,13 +57,12 @@ STEPPER *PAParray[NUM_STEPPERS];
                  int MS3, double degrees_per_step, int RPM);
   //initializes pololu struct manually.
   A4988 newPololu(int dir, int step, int enable, int MS1, int MS2, int MS3, double degrees_per_step, int RPM);
-
   void setPololuFA(pololu *drive, DriveArray array);
-
 #endif
 
-//initializes pololu struct from DriveArray array;
+//initializes pololu struct from a DriveArray array;
 A4988 newPololuFA(DriveArray array);
+
 void setSpeed(int speed, STEPPER *drive);
 void rotateNSteps(int n, STEPPER *drive, int dir);
 
