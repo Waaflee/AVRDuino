@@ -1,7 +1,10 @@
 #ifndef A49INTERRUPS
 #define A49INTERRUPS
+
 #include "core.h"
 #include <avr/interrupt.h>
+#include "A4988.h"
+#include "../../variables.h"
 
 enum t0_prescaler
 {

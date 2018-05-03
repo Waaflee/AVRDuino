@@ -53,6 +53,7 @@ void setSpeed(int speed, STEPPER *drive);
 void rotateNSteps(int n, STEPPER *drive, int dir);
 
 void stopPololu(STEPPER *drive);
+void raceEnd(uint8_t drive);
 
 volatile int count[NUM_STEPPERS];
 volatile int delay;

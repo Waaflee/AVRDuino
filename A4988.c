@@ -109,3 +109,9 @@ void stopPololu(STEPPER *drive) {
   pinOff(drive->motor->enable);
   drive->enabled = FALSE;
 }
+
+void raceEnd(uint8_t drive) {
+  stopPololu(PAParray[drive]);
+  setSpeed(60, PAParray[drive]);
+  rotateNSteps(12, PAParray[drive], !PAParray[drive]->motor->direction);
+}
