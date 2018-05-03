@@ -6,9 +6,6 @@
 #include "A4988_interrups.h"
 #include "../../variables.h"
 
-volatile int count[NUM_STEPPERS];
-volatile int delay;
-STEPPER *PAParray[NUM_STEPPERS];
 
 // #define MANSET
 // #define SETPOL
@@ -39,6 +36,10 @@ typedef struct stepper {
   unsigned short int enabled;
   A4988 *motor;
 }STEPPER;
+
+volatile int count[NUM_STEPPERS];
+volatile int delay;
+STEPPER *PAParray[NUM_STEPPERS];
 
 #ifdef MANSET
 //set existing A4988 struct manually or from an existing DriveArray array.
