@@ -81,15 +81,16 @@ void setSpeed(int speed, STEPPER *drive) { drive->motor->RPM = speed; };
 
 void rotateNSteps(int n, STEPPER *drive, int dir) {
   drive->motor->stepps = n;
-  float ratio = (float)drive->motor->RPM / (float)n;
-  uint8_t accel;
-  if (ratio > 1) {
-    accel = ratio + 5;
-    accel = accel > (float)n / 4 ? (float)n / 4 : accel;
-  } else {
-    accel = ratio * 25;
-    accel = accel < 15 ? 15 : accel;
-  }
+  // float ratio = (float)drive->motor->RPM / (float)n;
+  // uint8_t accel;
+  int accel = n / 4;
+  // if (ratio > 1) {
+  //   accel = ratio + 5;
+  //   accel = accel > (float)n / 4 ? (float)n / 4 : accel;
+  // } else {
+  //   accel = ratio * 25;
+  //   accel = accel < 15 ? 15 : accel;
+  // }
   drive->motor->accelStepps[1] = n - accel;
   drive->motor->accelStepps[0] = accel;
   pinOn(drive->motor->enable);

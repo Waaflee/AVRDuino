@@ -4,6 +4,7 @@
 #define BACKWARD 0
 #include "core.h"
 #include "A4988_interrups.h"
+#include "../../variables.h"
 
 // #define MANSET
 // #define SETPOL
@@ -52,5 +53,9 @@ void setSpeed(int speed, STEPPER *drive);
 void rotateNSteps(int n, STEPPER *drive, int dir);
 
 void stopPololu(STEPPER *drive);
+
+volatile int count[NUM_STEPPERS];
+volatile int delay;
+STEPPER *PAParray[NUM_STEPPERS];
 
 #endif
