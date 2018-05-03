@@ -66,6 +66,15 @@ ISR(USART_RX_vect) {
     checkData(UARTData);
     UARTclear();
     break;
+  case 'H':
+    printf("%s\n", "Usage:\n");
+    printf("%s\n",
+           "rotateNSteps:\t r<motor(0-3)><direction(f|b)>:<int stepps>");
+    printf("%s\n", "setSpeed:\t s<motor(0-3)>::<int RPM>");
+    printf("%s\n", "stop:\t\t b<motor(0-3)");
+    printf("%s\n", "to run command append 'C'");
+    printf("%s\n", "to clear command put B");
+    break;
   default:
     UARTData[UARTcount++] = uData;
   }
