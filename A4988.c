@@ -113,5 +113,5 @@ void stopPololu(STEPPER *drive) {
 void raceEnd(uint8_t drive) {
   stopPololu(PAParray[drive]);
   setSpeed(60, PAParray[drive]);
-  rotateNSteps(12, PAParray[drive], !PAParray[drive]->motor->direction);
+  rotateNSteps(4, PAParray[drive], !PAParray[drive]->motor->direction);
 }

@@ -6,6 +6,10 @@
 #include "A4988_interrups.h"
 #include "../../variables.h"
 
+volatile int count[NUM_STEPPERS];
+volatile int delay;
+STEPPER *PAParray[NUM_STEPPERS];
+
 // #define MANSET
 // #define SETPOL
 
@@ -54,9 +58,5 @@ void rotateNSteps(int n, STEPPER *drive, int dir);
 
 void stopPololu(STEPPER *drive);
 void raceEnd(uint8_t drive);
-
-volatile int count[NUM_STEPPERS];
-volatile int delay;
-STEPPER *PAParray[NUM_STEPPERS];
 
 #endif

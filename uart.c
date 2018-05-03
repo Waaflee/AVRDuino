@@ -41,14 +41,17 @@ void checkData(char data[]) {
     }
     rotation = atoi(temp);
     rotateNSteps(rotation, PAParray[atoi(&data[1])], direction);
+    break;
   case 's':
     for (uint8_t i = 4; i < UARTcount; i++) {
       temp[i - 4] = data[i];
     }
     speed = atoi(temp);
     setSpeed(speed, PAParray[atoi(&data[1])]);
+    break;
   case 'b':
     stopPololu(PAParray[atoi(&data[1])]);
+    break;
   }
 }
 
