@@ -5,6 +5,7 @@ void UART_init(void) {
   UCSR0A = 0;
   UCSR0B = (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0);
   UCSR0C = (1 << USBS0) | (3 << UCSZ00);
+  UARTSetted = TRUE;
 }
 
 int uecho(char c, FILE *stream) {

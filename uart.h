@@ -10,6 +10,7 @@
 #include <string.h>
 #include "core.h"
 #include "A4988.h"
+#include "../../variables.h"
 #define FORWARD 1
 #define BACKWARD 0
 

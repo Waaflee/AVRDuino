@@ -1,11 +1,19 @@
-#ifndef PAP
-#define PAP
+#pragma once
 #define FORWARD 1
 #define BACKWARD 0
+#define START 0
+#define END 1
 #include "core.h"
 #include "A4988_interrups.h"
 #include "../../variables.h"
 
+typedef struct drives_init {
+  uint8_t onSetup;
+  uint8_t setted;
+  unsigned int setupCount[NUM_STEPPERS];
+
+} drives_Init;
+drives_Init drivesInit;
 
 // #define MANSET
 // #define SETPOL
@@ -33,6 +41,7 @@ typedef A4988 pololu;
 typedef double DriveArray[8];
 
 typedef struct stepper {
+  unsigned short int ID;
   unsigned short int enabled;
   A4988 *motor;
 }STEPPER;
@@ -42,13 +51,13 @@ volatile int delay;
 STEPPER *PAParray[NUM_STEPPERS];
 
 #ifdef MANSET
-//set existing A4988 struct manually or from an existing DriveArray array.
-void setPololu(pololu *drive, int dir, int step, int enable, int MS1, int MS2,
-               int MS3, double degrees_per_step, int RPM);
-//initializes pololu struct manually.
-A4988 newPololu(int dir, int step, int enable, int MS1, int MS2, int MS3, double degrees_per_step, int RPM);
+  //set existing A4988 struct manually or from an existing DriveArray array.
+  void setPololu(pololu *drive, int dir, int step, int enable, int MS1, int MS2,
+                 int MS3, double degrees_per_step, int RPM);
+  //initializes pololu struct manually.
+  A4988 newPololu(int dir, int step, int enable, int MS1, int MS2, int MS3, double degrees_per_step, int RPM);
 
-void setPololuFA(pololu *drive, DriveArray array);
+  void setPololuFA(pololu *drive, DriveArray array);
 
 #endif
 
@@ -58,6 +67,6 @@ void setSpeed(int speed, STEPPER *drive);
 void rotateNSteps(int n, STEPPER *drive, int dir);
 
 void stopPololu(STEPPER *drive);
-void raceEnd(uint8_t drive);
+void raceEnd(uint8_t drive, uint8_t which);
 
-#endif
+void PAPsInit(void);

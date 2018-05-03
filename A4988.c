@@ -91,6 +91,7 @@ void rotateNSteps(int n, STEPPER *drive, int dir) {
   //   accel = ratio * 25;
   //   accel = accel < 15 ? 15 : accel;
   // }
+  accel = 10;
   drive->motor->accelStepps[1] = n - accel;
   drive->motor->accelStepps[0] = accel;
   pinOn(drive->motor->enable);
@@ -103,15 +104,46 @@ void rotateNSteps(int n, STEPPER *drive, int dir) {
     pinOff(drive->motor->dir);
   }
 }
-
+#include "uart.h"
 void stopPololu(STEPPER *drive) {
-  drive->motor->stepps = 0;
-  pinOff(drive->motor->enable);
-  drive->enabled = FALSE;
+  if (drivesInit.onSetup) {
+    drivesInit.setupCount[drive->ID]++;
+    if (drivesInit.setupCount[drive->ID] == 2) {
+      drive->motor->MaxSteps = INIT_STEPPS - drive->motor->stepps;
+      drivesInit.setted++;
+      if (drivesInit.setted == NUM_STEPPERS) {
+        drivesInit.onSetup = FALSE;
+        if (UARTSetted) {
+          for (uint8_t i = 0; i < NUM_STEPPERS; i++) {
+            printf("PAP[%d] %s %d\n", drive->ID, "MaxSteps:\t",
+                   drive->motor->MaxSteps);
+          }
+        }
+      }
+    } else {
+      rotateNSteps(INIT_STEPPS, drive, !drive->motor->direction);
+    }
+  } else {
+    drive->motor->stepps = 0;
+    pinOff(drive->motor->enable);
+    drive->enabled = FALSE;
+  }
 }
 
-void raceEnd(uint8_t drive) {
+void raceEnd(uint8_t drive, uint8_t which) {
+  PAParray[drive]->motor->location =
+      which ? PAParray[drive]->motor->MaxSteps : 0;
   stopPololu(PAParray[drive]);
-  setSpeed(60, PAParray[drive]);
-  rotateNSteps(4, PAParray[drive], !PAParray[drive]->motor->direction);
+  if (!drivesInit.onSetup) {
+    /* code */
+    setSpeed(60, PAParray[drive]);
+    rotateNSteps(4, PAParray[drive], !PAParray[drive]->motor->direction);
+  }
+}
+void PAPsInit(void) {
+  drivesInit.onSetup = TRUE;
+  for (uint8_t i = 0; i < NUM_STEPPERS; i++) {
+    setSpeed(300, PAParray[i]);
+    rotateNSteps(INIT_STEPPS, PAParray[i], FORWARD);
+  }
 }
