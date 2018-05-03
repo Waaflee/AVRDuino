@@ -33,6 +33,7 @@ void checkData(char data[]) {
   int rotation;
   uint8_t direction;
   int speed;
+  int coord;
 
   switch (data[0]) {
   case 'r':
@@ -57,6 +58,20 @@ void checkData(char data[]) {
     printf("PAP[%s] located in: %d\n", &data[1],
            PAParray[atoi(&data[1])]->motor->location);
     break;
+  case 'p':
+    for (uint8_t i = 4; i < UARTcount; i++) {
+      temp[i - 4] = data[i];
+    }
+    coord = atoi(temp);
+    switch (data[2]) {
+    case 'r':
+      goTorel(coord, PAParray[atoi(&data[1])]);
+      break;
+    case 'a':
+      goToabs(coord, PAParray[atoi(&data[1])]);
+      break;
+    }
+    break;
   }
 }
 
@@ -75,6 +90,7 @@ ISR(USART_RX_vect) {
     printf("%s\n", "Usage:\n");
     printf("%s\n",
            "rotateNSteps:\t r<motor(0-3)><direction(f|b)>:<int stepps>");
+    printf("%s\n", "position:\t\t p<motor(0-3)><rel or abs (r|a)>:<int where>");
     printf("%s\n", "setSpeed:\t s<motor(0-3)>::<int RPM>");
     printf("%s\n", "stop:\t\t b<motor(0-3)>");
     printf("%s\n", "where:\t\t w<motor(0-3)>");

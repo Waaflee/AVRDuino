@@ -66,6 +66,9 @@ A4988 newPololuFA(DriveArray array);
 void setSpeed(int speed, STEPPER *drive);
 void rotateNSteps(int n, STEPPER *drive, int dir);
 
+void goToabs(int position, STEPPER *drive);
+void goTorel(int percentage, STEPPER *drive);
+
 void stopPololu(STEPPER *drive);
 void raceEnd(uint8_t drive, uint8_t which);
 

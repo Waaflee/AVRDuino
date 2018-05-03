@@ -103,7 +103,18 @@ void rotateNSteps(int n, STEPPER *drive, int dir) {
     pinOff(drive->motor->dir);
   }
 }
+
 #include "uart.h"
+void goToabs(int position, STEPPER *drive) {
+  int actual = drive->motor->location;
+  int diff = actual - position;
+  rotateNSteps(abs(diff), drive, diff < 0 ? FORWARD : BACKWARD);
+}
+void goTorel(int percentage, STEPPER *drive) {
+  int position = ((float)percentage / 100) * drive->motor->MaxSteps;
+  goToabs(position, drive);
+}
+
 void stopPololu(STEPPER *drive) {
   if (drivesInit.onSetup) {
     drivesInit.setupCount[drive->ID]++;
