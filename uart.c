@@ -87,10 +87,10 @@ ISR(USART_RX_vect) {
     UARTclear();
     break;
   case 'H':
-    printf("%s\n", "Usage:\n");
+    printf("\n%s", "Usage:\n");
     printf("%s\n",
            "rotateNSteps:\t r<motor(0-3)><direction(f|b)>:<int stepps>");
-    printf("%s\n", "position:\t\t p<motor(0-3)><rel or abs (r|a)>:<int where>");
+    printf("%s\n", "position:\t p<motor(0-3)><rel or abs (r|a)>:<int where>");
     printf("%s\n", "setSpeed:\t s<motor(0-3)>::<int RPM>");
     printf("%s\n", "stop:\t\t b<motor(0-3)>");
     printf("%s\n", "where:\t\t w<motor(0-3)>");
