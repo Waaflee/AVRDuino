@@ -124,9 +124,13 @@ void stopPololu(STEPPER *drive) {
       if (drivesInit.setted == NUM_STEPPERS) {
         drivesInit.onSetup = FALSE;
         if (UARTSetted) {
+          // for (uint8_t i = 0; i < NUM_STEPPERS; i++) {
+          //   printf("PAP[%d] %s %d\n", drive->ID, "MaxSteps:\t",
+          //          drive->motor->MaxSteps);
+          // }
           for (uint8_t i = 0; i < NUM_STEPPERS; i++) {
-            printf("PAP[%d] %s %d\n", drive->ID, "MaxSteps:\t",
-                   drive->motor->MaxSteps);
+            printf("PAP[%d] %s %d\n", PAParray[i]->ID, "MaxSteps:\t",
+                   PAParray[i]->motor->MaxSteps);
           }
         }
       }
