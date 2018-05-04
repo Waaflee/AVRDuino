@@ -1,5 +1,4 @@
-#ifndef CORE
-#define CORE
+#pragma once
 #define OUTPUT 0
 #define INPUT 1
 #define FALSE 0
@@ -28,5 +27,3 @@ int readDPin(int pin);
 
 void setPCInt(uint8_t pin);
 void setINT(uint8_t pin, enum EI_TRIGGER trigger);
-
-#endif

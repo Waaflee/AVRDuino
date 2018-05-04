@@ -34,7 +34,7 @@ void checkData(char data[]) {
   uint8_t direction;
   int speed;
   int coord;
-
+  // printf("%s %s\n", "data: ", UARTData);
   switch (data[0]) {
   case 'r':
     direction = data[2] == 'f' ? FORWARD : BACKWARD;

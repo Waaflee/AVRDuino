@@ -1,5 +1,4 @@
-#ifndef A49INTERRUPS
-#define A49INTERRUPS
+#pragma once
 
 #include "core.h"
 #include <avr/interrupt.h>
@@ -17,7 +16,3 @@ enum t0_prescaler
 
 void setTimer0(enum t0_prescaler PS);
 void setTimer0PS(enum t0_prescaler ps);
-
-
-
-#endif
