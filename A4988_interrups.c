@@ -50,7 +50,7 @@ ISR(TIMER0_OVF_vect, ISR_NOBLOCK) {
                 PAParray[i]->motor->stepps;
         }
 
-        delay = (60 * (7812 / PAParray[i]->motor->PPV)) / (RPM);
+        delay = (60 * (7812 / PAParray[i]->motor->PPV)) / RPM;
         // in order to emulate a square shaped wave, the stepper's step pin will
         // turn on in the middle of the dealy and turn off again at it's end.
         if (count[i] >= delay / 2) {
