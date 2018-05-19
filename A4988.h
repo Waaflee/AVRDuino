@@ -30,6 +30,7 @@ typedef struct a4988 {
         int MS2;
         int MS3;
         double degrees_per_step;
+        int PPV;
         int RPM;
         int stepps;
         int accelStepps[2];
@@ -48,7 +49,7 @@ typedef struct stepper {
 }STEPPER;
 
 volatile int count[NUM_STEPPERS];
-volatile int delay;
+volatile long int delay;
 STEPPER *PAParray[NUM_STEPPERS];
 
 #ifdef MANSET

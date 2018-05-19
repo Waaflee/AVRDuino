@@ -11,6 +11,8 @@ void setTimer0(enum t0_prescaler PS) {
   sei();
 };
 
+volatile int RPM;
+
 void setTimer0PS(enum t0_prescaler ps) { TCCR0B = ps; };
 
 #ifdef POLOLU
@@ -29,31 +31,26 @@ ISR(TIMER0_OVF_vect, ISR_NOBLOCK) {
         // current stepper's RPM
         if (PAParray[i]->motor->stepps > PAParray[i]->motor->accelStepps[1]) {
 
-          delay = (60.0 / (float)((float)PAParray[i]->motor->RPM -
-                                  ((float)PAParray[i]->motor->RPM /
-                                   (float)PAParray[i]->motor->accelStepps[0]) *
-                                      (PAParray[i]->motor->stepps -
-                                       PAParray[i]->motor->accelStepps[1]))) *
-                  61.0;
+          RPM = PAParray[i]->motor->RPM -
+                (PAParray[i]->motor->RPM / PAParray[i]->motor->accelStepps[0]) *
+                    (PAParray[i]->motor->stepps -
+                     PAParray[i]->motor->accelStepps[1]);
 
-        } else if (PAParray[i]->motor->stepps <=
-                       PAParray[i]->motor->accelStepps[1] &&
-                   PAParray[i]->motor->stepps >=
-                       PAParray[i]->motor->accelStepps[0]) {
+        } else if ((PAParray[i]->motor->stepps <=
+                    PAParray[i]->motor->accelStepps[1]) &&
+                   (PAParray[i]->motor->stepps >=
+                    PAParray[i]->motor->accelStepps[0])) {
 
-          delay = (60.0 / (float)PAParray[i]->motor->RPM) * 61.0;
+          RPM = PAParray[i]->motor->RPM;
 
         } else if (PAParray[i]->motor->stepps <
                    PAParray[i]->motor->accelStepps[0]) {
 
-          delay = (60.0 / (float)(((float)PAParray[i]->motor->RPM /
-                                   (float)PAParray[i]->motor->accelStepps[0]) *
-                                  (PAParray[i]->motor->stepps))) *
-                  61.0;
-
-        } else {
-          delay = (60.0 / (float)PAParray[i]->motor->RPM) * 61.0;
+          RPM = (PAParray[i]->motor->RPM / PAParray[i]->motor->accelStepps[0]) *
+                PAParray[i]->motor->stepps;
         }
+
+        delay = (60 * (7812 / PAParray[i]->motor->PPV)) / (RPM);
         // in order to emulate a square shaped wave, the stepper's step pin will
         // turn on in the middle of the dealy and turn off again at it's end.
         if (count[i] >= delay / 2) {

@@ -69,6 +69,7 @@ A4988 newPololuFA(DriveArray array) {
   drive.MS2 = (int)array[4];
   drive.MS3 = (int)array[5];
   drive.degrees_per_step = array[6];
+  drive.PPV = (int)(360 / array[6]);
   drive.RPM = (int)array[7];
 
   for (uint8_t i = 0; i < 3; i++) {
@@ -157,7 +158,7 @@ void raceEnd(uint8_t drive, uint8_t which) {
 void PAPsInit(void) {
   drivesInit.onSetup = TRUE;
   for (uint8_t i = 0; i < NUM_STEPPERS; i++) {
-    setSpeed(600, PAParray[i]);
+    setSpeed(1, PAParray[i]);
     rotateNSteps(INIT_STEPPS, PAParray[i], FORWARD);
   }
 }

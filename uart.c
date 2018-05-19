@@ -77,8 +77,12 @@ void checkData(char data[]) {
 
 ISR(USART_RX_vect) {
   uData = uread(&uart_io);
-  printf("%s %c\n", "Recibido: ", uData);
+  // printf("%s %c\n", "Recibido: ", uData);
   switch (uData) {
+  case 'I':
+    PAPsInit();
+    UARTclear();
+    break;
   case 'B':
     UARTclear();
     break;
@@ -104,5 +108,5 @@ ISR(USART_RX_vect) {
   default:
     UARTData[UARTcount++] = uData;
   }
-  printf("%s %s\n", "data: ", UARTData);
+  // printf("%s %s\n", "data: ", UARTData);
 }
