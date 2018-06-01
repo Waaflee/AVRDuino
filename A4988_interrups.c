@@ -32,9 +32,11 @@ ISR(TIMER0_OVF_vect, ISR_NOBLOCK) {
         if (PAParray[i]->motor->stepps > PAParray[i]->motor->accelStepps[1]) {
 
           RPM = PAParray[i]->motor->RPM -
-                (PAParray[i]->motor->RPM / PAParray[i]->motor->accelStepps[0]) *
+                (1000 * PAParray[i]->motor->RPM /
+                 PAParray[i]->motor->accelStepps[0]) *
                     (PAParray[i]->motor->stepps -
-                     PAParray[i]->motor->accelStepps[1]);
+                     PAParray[i]->motor->accelStepps[1]) /
+                    1000;
 
         } else if ((PAParray[i]->motor->stepps <=
                     PAParray[i]->motor->accelStepps[1]) &&
@@ -46,8 +48,10 @@ ISR(TIMER0_OVF_vect, ISR_NOBLOCK) {
         } else if (PAParray[i]->motor->stepps <
                    PAParray[i]->motor->accelStepps[0]) {
 
-          RPM = (PAParray[i]->motor->RPM / PAParray[i]->motor->accelStepps[0]) *
-                PAParray[i]->motor->stepps;
+          RPM = ((1000 * PAParray[i]->motor->RPM /
+                  PAParray[i]->motor->accelStepps[0]) *
+                 PAParray[i]->motor->stepps) /
+                1000;
         }
 
         delay = (60 * (7812 / PAParray[i]->motor->PPV)) / RPM;

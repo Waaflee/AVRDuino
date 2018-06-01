@@ -116,10 +116,6 @@ void stopPololu(STEPPER *drive) {
       if (drivesInit.setted == NUM_STEPPERS) {
         drivesInit.onSetup = FALSE;
         if (UARTSetted) {
-          // for (uint8_t i = 0; i < NUM_STEPPERS; i++) {
-          //   printf("PAP[%d] %s %d\n", drive->ID, "MaxSteps:\t",
-          //          drive->motor->MaxSteps);
-          // }
           for (uint8_t i = 0; i < NUM_STEPPERS; i++) {
             printf("PAP[%d] %s %d\n", PAParray[i]->ID, "MaxSteps:\t",
                    PAParray[i]->motor->MaxSteps);
@@ -143,13 +139,13 @@ void raceEnd(uint8_t drive, uint8_t which) {
   if (!drivesInit.onSetup) {
     /* code */
     setSpeed(1, PAParray[drive]);
-    rotateNSteps(10, PAParray[drive], !PAParray[drive]->motor->direction);
+    rotateNSteps(4, PAParray[drive], !PAParray[drive]->motor->direction);
   }
 }
-void PAPsInit(void) {
+void PAPsInit(uint8_t speed) {
   drivesInit.onSetup = TRUE;
   for (uint8_t i = 0; i < NUM_STEPPERS; i++) {
-    setSpeed(5, PAParray[i]);
+    setSpeed(speed, PAParray[i]);
     rotateNSteps(INIT_STEPPS, PAParray[i], FORWARD);
   }
 }

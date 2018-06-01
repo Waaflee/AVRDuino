@@ -78,23 +78,30 @@ void checkData(char data[]) {
 ISR(USART_RX_vect) {
   uData = uread(&uart_io);
   // printf("%s %c\n", "Recibido: ", uData);
+  // putchar(uData);
   switch (uData) {
   case 'I':
-    PAPsInit();
+    PAPsInit(5);
+    printf("%s %s\n", "command: ", UARTData);
     UARTclear();
     break;
   case 'B':
+    printf("%s %s\n", "command: ", UARTData);
     UARTclear();
     break;
   case 'C':
     checkData(UARTData);
+    printf("%s %s\n", "command: ", UARTData);
     UARTclear();
     break;
   case ';':
     checkData(UARTData);
+
+    printf("%s %s\n", "command: ", UARTData);
     UARTclear();
     break;
   case 'H':
+    printf("%s %s\n", "command: ", UARTData);
     printf("\n%s", "Usage:\n");
     printf("%s\n",
            "rotateNSteps:\t r<motor(0-3)><direction(f|b)>:<int stepps>");

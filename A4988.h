@@ -73,4 +73,4 @@ void goTorel(int percentage, STEPPER *drive);
 void stopPololu(STEPPER *drive);
 void raceEnd(uint8_t drive, uint8_t which);
 
-void PAPsInit(void);
+void PAPsInit(uint8_t speed);
