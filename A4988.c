@@ -3,6 +3,7 @@
 // #define SETPOL
 
 #ifdef MANSET
+// Deprecated a4988 instatiation methods
 void setPololu(pololu *drive, int dir, int step, int enable, int MS1, int MS2,
                int MS3, double degrees_per_step, int RPM) {
   drive->dir = dir;
@@ -115,12 +116,15 @@ void stopPololu(STEPPER *drive) {
       drivesInit.setted++;
       if (drivesInit.setted == NUM_STEPPERS) {
         drivesInit.onSetup = FALSE;
+#ifdef UART
+#include "uart.h"
         if (UARTSetted) {
           for (uint8_t i = 0; i < NUM_STEPPERS; i++) {
             printf("PAP[%d] %s %d\n", PAParray[i]->ID, "MaxSteps:\t",
                    PAParray[i]->motor->MaxSteps);
           }
         }
+#endif
       }
     } else {
       rotateNSteps(INIT_STEPPS, drive, !drive->motor->direction);

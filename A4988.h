@@ -4,8 +4,10 @@
 #define START 0
 #define END 1
 #include "core.h"
-#include "A4988_interrups.h"
-#include "uart.h"
+// #include "A4988_interrups.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "../../variables.h"
 
 typedef struct drives_init {
