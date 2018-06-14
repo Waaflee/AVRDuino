@@ -116,7 +116,7 @@ void stopPololu(STEPPER *drive) {
       drivesInit.setted++;
       if (drivesInit.setted == NUM_STEPPERS) {
         drivesInit.onSetup = FALSE;
-#ifdef UART
+#ifdef UART_DEBBUG
 #include "uart.h"
         if (UARTSetted) {
           for (uint8_t i = 0; i < NUM_STEPPERS; i++) {

@@ -1,8 +1,10 @@
 #pragma once
+
 #define FORWARD 1
 #define BACKWARD 0
 #define START 0
 #define END 1
+
 #include "core.h"
 // #include "A4988_interrups.h"
 #include <stdlib.h>
@@ -54,6 +56,7 @@ volatile int count[NUM_STEPPERS];
 volatile long int delay;
 STEPPER *PAParray[NUM_STEPPERS];
 
+//Deprecated a4988 instatiation methods
 #ifdef MANSET
   //set existing A4988 struct manually or from an existing DriveArray array.
   void setPololu(pololu *drive, int dir, int step, int enable, int MS1, int MS2,
@@ -66,7 +69,9 @@ STEPPER *PAParray[NUM_STEPPERS];
 //initializes pololu struct from a DriveArray array;
 A4988 newPololuFA(DriveArray array);
 
+//Changes selected a4988 instance derided RPMs
 void setSpeed(int speed, STEPPER *drive);
+
 void rotateNSteps(int n, STEPPER *drive, int dir);
 
 void goToabs(int position, STEPPER *drive);

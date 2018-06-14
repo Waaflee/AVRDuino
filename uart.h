@@ -4,7 +4,6 @@
 #define F_CPU 16000000UL
 #include <avr/io.h>
 #include <stdlib.h>
-#include <util/delay.h>
 #include <avr/interrupt.h>
 #include <stdio.h>
 #include <string.h>
