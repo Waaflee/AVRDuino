@@ -1,10 +1,5 @@
 #pragma once
 
-#include "core.h"
-#include <avr/interrupt.h>
-#include "A4988.h"
-#include "../../variables.h"
-
 enum t0_prescaler
 {
     T0_PRESCALER_1 = _BV(CS00),

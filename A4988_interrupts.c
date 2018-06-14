@@ -1,21 +1,8 @@
-#include "A4988_interrups.h"
-#define POLOLU
-void setTimer0(enum t0_prescaler PS) {
-  // Set timer to click at F_CPU / PS.
-  TCCR0B |= PS;
-  // Enable timer overflow interrupts.
-  TIMSK0 |= _BV(TOIE0);
-  // Reset timer/counter zero.
-  TCNT0 = 0;
-  // Enable interrupts.
-  sei();
-};
-
-volatile int RPM;
-
-void setTimer0PS(enum t0_prescaler ps) { TCCR0B = ps; };
+#include "A4988_interrupts.h"
 
 #ifdef POLOLU
+
+volatile int RPM;
 // Timer0 overflow interruption, checks enabled steppers setep's left and
 // moves them accordingly until there is no one left.
 ISR(TIMER0_OVF_vect, ISR_NOBLOCK) {
