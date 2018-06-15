@@ -6,7 +6,7 @@
 #define END 1
 
 #include "core.h"
-// #include "A4988_interrups.h"
+#include "A4988_interrupts.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -52,8 +52,6 @@ typedef struct stepper {
   A4988 *motor;
 }STEPPER;
 
-volatile int count[NUM_STEPPERS];
-volatile long int delay;
 STEPPER *PAParray[NUM_STEPPERS];
 
 //Deprecated a4988 instatiation methods
@@ -72,12 +70,18 @@ A4988 newPololuFA(DriveArray array);
 //Changes selected a4988 instance derided RPMs
 void setSpeed(int speed, STEPPER *drive);
 
+//Command selected driver to move n amount of stepps in the desired directon
 void rotateNSteps(int n, STEPPER *drive, int dir);
 
+// AVIABLE AFTER PAPsInit() IS COMPLETED!!!!!!
+// Commands drive to move to an absolute position in stepps on the aviable range
 void goToabs(int position, STEPPER *drive);
+// Commands drive to move to a relative position in % on the aviable range
 void goTorel(int percentage, STEPPER *drive);
 
+//Stops and disables selected drive.
 void stopPololu(STEPPER *drive);
+//Wrapper for stopPololu(), designed for race ends
 void raceEnd(uint8_t drive, uint8_t which);
 
 void PAPsInit(uint8_t speed);

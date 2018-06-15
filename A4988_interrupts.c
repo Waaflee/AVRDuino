@@ -3,6 +3,9 @@
 #ifdef POLOLU
 
 volatile int RPM;
+volatile int count[NUM_STEPPERS];
+volatile long int delay;
+
 // Timer0 overflow interruption, checks enabled steppers setep's left and
 // moves them accordingly until there is no one left.
 ISR(TIMER0_OVF_vect, ISR_NOBLOCK) {
