@@ -1,6 +1,5 @@
 #pragma once
 
-#define BAUD 9600
 #define F_CPU 16000000UL
 #include <avr/io.h>
 #include <stdlib.h>
@@ -17,7 +16,7 @@ char UARTData[15];
 volatile char uData;
 uint8_t UARTcount;
 
-void UART_init(void);
+void UART_init(void (*f)(char data[]));
 int uecho(char,FILE *stream);
 int uread(FILE *stream);
 extern FILE uart_io;
