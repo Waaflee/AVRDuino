@@ -1,5 +1,7 @@
 #pragma once
 
+#include <avr/interrupt.h>
+
 enum t0_prescaler
 {
     T0_PRESCALER_1 = _BV(CS00),
