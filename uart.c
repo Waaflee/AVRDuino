@@ -1,14 +1,15 @@
 #include "uart.h"
 
-void (*command_interpreter)(char data[]);
+void (*command_interpreter)(char *);
 
-void UART_init(void (*f)(char data[])) {
+void UART_init(void (*f)(char *)) {
+  UARTcount = 0;
   UBRR0 = F_CPU / 16 / BAUD - 1;
   UCSR0A = 0;
   UCSR0B = (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0);
   UCSR0C = (1 << USBS0) | (3 << UCSZ00);
-  command_interpreter = f;
   UARTSetted = TRUE;
+  command_interpreter = f;
 }
 
 int uecho(char c, FILE *stream) {
@@ -34,20 +35,6 @@ void UARTclear(void) {
 ISR(USART_RX_vect) {
   uData = uread(&uart_io);
   switch (uData) {
-  case 'B':
-    printf("%s %s\n", "command: ", UARTData);
-    UARTclear();
-    break;
-  case '\r':
-    command_interpreter(UARTData);
-    printf("%s %s\n", "command: ", UARTData);
-    UARTclear();
-    break;
-  case ';':
-    command_interpreter(UARTData);
-    printf("%s %s\n", "command: ", UARTData);
-    UARTclear();
-    break;
   case 'H':
     printf("%s %s\n", "command: ", UARTData);
     printf("\n%s", "Usage:\n");
@@ -60,7 +47,27 @@ ISR(USART_RX_vect) {
     printf("%s\n", "to run command append 'C' or ';'");
     printf("%s\n", "to clear command put B");
     break;
+  case 'B':
+    printf("%s %s\n", "command: ", UARTData);
+    UARTclear();
+    break;
+  case '\r':
+    command_interpreter(UARTData);
+    printf("%s %s\n", "command: ", UARTData);
+    UARTclear();
+    break;
+  case '\n':
+    command_interpreter(UARTData);
+    printf("%s %s\n", "command: ", UARTData);
+    UARTclear();
+    break;
+  case ';':
+    command_interpreter(UARTData);
+    printf("%s %s\n", "command: ", UARTData);
+    UARTclear();
+    break;
   default:
     UARTData[UARTcount++] = uData;
+    break;
   }
 }

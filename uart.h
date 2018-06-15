@@ -16,9 +16,8 @@ char UARTData[15];
 volatile char uData;
 uint8_t UARTcount;
 
-void UART_init(void (*f)(char data[]));
-int uecho(char,FILE *stream);
+void UART_init(void (*f)(char *));
+int uecho(char, FILE *stream);
 int uread(FILE *stream);
 extern FILE uart_io;
-void checkData(char data[]);
 void UARTclear(void);
