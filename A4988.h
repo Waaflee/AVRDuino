@@ -6,11 +6,13 @@
 #define END 1
 
 #include "core.h"
-#include "A4988_interrupts.h"
+#include <avr/interrupt.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "../../variables.h"
+
+
 
 typedef struct drives_init {
   uint8_t onSetup;
