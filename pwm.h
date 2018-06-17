@@ -4,7 +4,8 @@
 #define NaN 65535
 
 #define pt100(x) (uint16_t)(((float)x / 100.0) * NaN)
-#define pt10(x) (((uint16_t)x * 64) - x==1024 ? 1 : 0)
+#define pt1000(x) (uint16_t)(((float)x / 1000.0) * NaN)
+#define pt10(x) (((uint16_t)x * 64) - (x==1024) ? 1 : 0)
 #define to100(x) (uint16_t)( ((float)x / (float)NaN) * 100.0 + 1)
 #define to10(x) ((uint16_t)x / 64)
 
@@ -21,15 +22,15 @@ enum t1_waveforms {
 
 enum t1A_modes {
         unplugged = 0,
-        Atoggle = _BV(COM1A0),
-        Aproportional = _BV(COM1A1),
-        Ainverse = _BV(COM1A1) | _BV(COM1A0)
+        toggleA = _BV(COM1A0),
+        proportionalA = _BV(COM1A1),
+        inverseA = _BV(COM1A1) | _BV(COM1A0)
 };
 
 enum t1B_modes {
-        Btoggle = _BV(COM1B0),
-        Bproportional = _BV(COM1B1),
-        Binverse = _BV(COM1B1) | _BV(COM1B0)
+        toggleB = _BV(COM1B0),
+        proportionalB = _BV(COM1B1),
+        inverseB = _BV(COM1B1) | _BV(COM1B0)
 };
 
 struct pwm1 {
@@ -46,7 +47,7 @@ struct pwm1 newPWM1(void);
 void registPWM1 (struct pwm1 *pwm);
 uint16_t duty_1A(uint16_t ton);
 uint16_t duty_1B(uint16_t ton);
-uint16_t freq(uint16_t khz);
+uint16_t freq(uint16_t Khz);
 
 /////////////////////////////////////TIMER1/////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

@@ -8,8 +8,8 @@ void registPWM1(struct pwm1 *pwm) {
     TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11);
     TCCR1B = _BV(WGM13) | _BV(WGM12) | _BV(CS01);
   } else {
-    uint8_t OCA = pwm->oca ? pwm->oca : Aproportional;
-    uint8_t OCB = pwm->ocb ? pwm->ocb : Bproportional;
+    uint8_t OCA = pwm->oca ? pwm->oca : proportionalA;
+    uint8_t OCB = pwm->ocb ? pwm->ocb : proportionalB;
     uint8_t wgma;
     uint8_t wgmb;
     if (!pwm->waveform) {
@@ -26,6 +26,7 @@ void registPWM1(struct pwm1 *pwm) {
   pwm->dutyA = duty_1A;
   pwm->dutyB = duty_1B;
   pwm->freq = freq;
+  pwm->freq(20000)
 };
 
 struct pwm1 newPWM1(void) {
