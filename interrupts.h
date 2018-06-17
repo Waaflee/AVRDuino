@@ -10,5 +10,8 @@ enum EI_TRIGGER {
     RISING_FLANK = _BV(ISC10)
 };
 
+void (*INT0_handler)();
+void (*INT1_handler)();
+
 void setPCInt(uint8_t pin);
-void setINT(uint8_t pin, enum EI_TRIGGER trigger);
+void setINT(uint8_t pin, enum EI_TRIGGER trigger, void (*f)());

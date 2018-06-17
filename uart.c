@@ -26,9 +26,7 @@ int uread(FILE *stream) {
 }
 
 void UARTclear(void) {
-  for (uint8_t i = 0; i < 15; i++) {
-    memset(UARTData, 0, sizeof UARTData);
-  }
+  memset(UARTData, 0, sizeof UARTData);
   UARTcount = 0;
 }
 

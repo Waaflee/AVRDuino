@@ -12,21 +12,27 @@ void registPWM1(struct pwm1 *pwm) {
     uint8_t OCB = pwm->ocb ? pwm->ocb : proportionalB;
     uint8_t wgma;
     uint8_t wgmb;
+
     if (!pwm->waveform) {
       pwm->waveform = fast;
     };
-    if (pwm->waveform == fast) {
+    switch (pwm->waveform) {
+    case fast:
       wgma = _BV(WGM11);
       wgmb = _BV(WGM13) | _BV(WGM12);
-    } else if (pwm->waveform == phaseCorrect) {
+      break;
+    case phaseCorrect:
       wgma = _BV(WGM11);
       wgmb = _BV(WGM13);
-    };
+      break;
+    default:
+      break;
+    }
   }
   pwm->dutyA = duty_1A;
   pwm->dutyB = duty_1B;
   pwm->freq = freq;
-  pwm->freq(20000)
+  pwm->freq(20000);
 };
 
 struct pwm1 newPWM1(void) {
