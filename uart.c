@@ -33,23 +33,16 @@ void UARTclear(void) {
 ISR(USART_RX_vect) {
   uData = uread(&uart_io);
   switch (uData) {
-  case 'B':
-    printf("%s %s\n", "command: ", UARTData);
-    UARTclear();
-    break;
   case '\r':
     command_interpreter(UARTData);
-    // printf("%s %s\n", "command: ", UARTData);
     UARTclear();
     break;
   case '\n':
     command_interpreter(UARTData);
-    // printf("%s %s\n", "command: ", UARTData);
     UARTclear();
     break;
   case ';':
     command_interpreter(UARTData);
-    // printf("%s %s\n", "command: ", UARTData);
     UARTclear();
     break;
   default:
