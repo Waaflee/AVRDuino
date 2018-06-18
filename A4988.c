@@ -87,7 +87,7 @@ void rotateNSteps(int n, STEPPER *drive, int dir) {
   int accel = n / 4 > 100 ? 100 : n / 4;
   drive->motor->accelStepps[1] = n - accel;
   drive->motor->accelStepps[0] = accel;
-  pinOn(drive->motor->enable);
+  pinOff(drive->motor->enable);
   drive->enabled = TRUE;
   if (dir) {
     drive->motor->direction = FORWARD;
@@ -131,7 +131,7 @@ void stopPololu(STEPPER *drive) {
     }
   } else {
     drive->motor->stepps = 0;
-    pinOff(drive->motor->enable);
+    pinOn(drive->motor->enable);
     drive->enabled = FALSE;
   }
 }
