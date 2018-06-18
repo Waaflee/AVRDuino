@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "core.h"
 #include "../../variables.h"
 #define FORWARD 1
 #define BACKWARD 0
