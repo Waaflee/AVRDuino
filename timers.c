@@ -20,9 +20,13 @@ void setTimer0PS(enum prescaler ps) { TCCR0B = ps; };
 
 void Regist1(struct timer1 *t1) {
 
-  TCCR1B = t1->prescaler | t1->interrupts | t1->inputFlank |
-           t1->inputNoiseCancelling;
+  TCCR1B = t1->prescaler | t1->inputFlank | t1->inputNoiseCancelling;
+  TIMSK1 = t1->interrupts;
   TCNT1 = 0;
+  T1_OverflowHandler = t1->OverflowHandler;
+  InputCaptureHandler = t1->InputCaptureHandler;
+  T1_MAHandler = t1->MAHandler;
+  T1_MBHandler = t1->MBHandler;
 };
 
 void disable() { TCCR1B = 0; };
@@ -34,6 +38,10 @@ struct timer1 newTimer1(void) {
   timer.disable = disable;
   return timer;
 }
+ISR(TIMER1_OVF_vect) { T1_OverflowHandler(); };
+ISR(TIMER1_CAPT_vect) { InputCaptureHandler(); };
+ISR(TIMER1_COMPA_vect) { T1_MAHandler(); };
+ISR(TIMER1_COMPB_vect) { T1_MBHandler(); };
 
 /////////////////////////////////////TIMER1/////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

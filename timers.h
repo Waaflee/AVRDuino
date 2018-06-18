@@ -47,10 +47,10 @@ struct timer1 {
 struct timer1 newTimer1(void);
 void Regist1 (struct timer1 *t1);
 
-void InputCaptureHandler(void);
-void T1_MAHandler(void);
-void T1_MBHandler(void);
-void T1_OverflowHandler(void);
+void (*InputCaptureHandler)(void);
+void (*T1_MAHandler)(void);
+void (*T1_MBHandler)(void);
+void (*T1_OverflowHandler)(void);
 
 ////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////TIMER2/////////////////////////////////////
