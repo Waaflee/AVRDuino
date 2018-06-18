@@ -5,6 +5,7 @@ int pinesD[] = {0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5};
 int pinesA[] = {PORTC0, PORTC1, PORTC2, PORTC3, PORTC4, PORTC5};
 
 void setPCInt(uint8_t pin) {
+  setPin(pin, INPUT);
   uint8_t ctrlReg;
   int *mask;
   if (pin >= 8 && pin <= 13) {
@@ -26,6 +27,7 @@ void setPCInt(uint8_t pin) {
 }
 
 void setINT(uint8_t pin, enum EI_TRIGGER trigger, void (*f)()) {
+  setPin(pin, INPUT);
   EICRA |= trigger;
   EIMSK |= _BV(pin == 2 ? INT0 : INT1);
   if (pin == 2) {
