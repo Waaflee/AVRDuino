@@ -2,12 +2,10 @@
 
 #define F_CPU 16000000UL
 #include <avr/io.h>
-#include <stdlib.h>
 #include <avr/interrupt.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "core.h"
-#include "A4988.h"
 #include "../../variables.h"
 #define FORWARD 1
 #define BACKWARD 0
