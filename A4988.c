@@ -132,9 +132,7 @@ void stopPololu(STEPPER *drive) {
       rotateNSteps(INIT_STEPPS, drive, !drive->motor->direction);
     }
   } else {
-    drive->motor->stepps = 0;
-    pinOn(drive->motor->enable);
-    drive->enabled = FALSE;
+    brake(drive);
   }
 };
 
