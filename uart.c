@@ -41,10 +41,6 @@ ISR(USART_RX_vect) {
     command_interpreter(UARTData);
     UARTclear();
     break;
-  case ';':
-    command_interpreter(UARTData);
-    UARTclear();
-    break;
   default:
     UARTData[UARTcount++] = uData;
     break;
