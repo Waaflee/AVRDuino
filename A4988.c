@@ -2,63 +2,64 @@
 // #define MANSET
 // #define SETPOL
 
-#ifdef MANSET
-// Deprecated a4988 instatiation methods
-void setPololu(pololu *drive, int dir, int step, int enable, int MS1, int MS2,
-               int MS3, double degrees_per_step, int RPM) {
-  drive->dir = dir;
-  drive->step = step;
-  drive->enable = enable;
-  drive->MS1 = MS1;
-  drive->MS2 = MS2;
-  drive->MS3 = MS3;
-  drive->degrees_per_step = degrees_per_step;
-  drive->RPM = RPM;
-  setPin(dir, OUTPUT);
-  setPin(step, OUTPUT);
-  setPin(enable, OUTPUT);
-  setPin(MS1, OUTPUT);
-  setPin(MS2, OUTPUT);
-  setPin(MS3, OUTPUT);
-}
-
-A4988 newPololu(int dir, int step, int enable, int MS1, int MS2, int MS3,
-                double degrees_per_step, int RPM) {
-  pololu drive;
-  drive.dir = dir;
-  drive.step = step;
-  drive.enable = enable;
-  drive.MS1 = MS1;
-  drive.MS2 = MS2;
-  drive.MS3 = MS3;
-  drive.degrees_per_step = degrees_per_step;
-  drive.RPM = RPM;
-  setPin(dir, OUTPUT);
-  setPin(step, OUTPUT);
-  setPin(enable, OUTPUT);
-  setPin(MS1, OUTPUT);
-  setPin(MS2, OUTPUT);
-  setPin(MS3, OUTPUT);
-  return drive;
-}
-#endif
-
-#ifdef SETPOL
-void setPololuFA(pololu *drive, DriveArray array) {
-  drive->dir = (int)array[0];
-  drive->step = (int)array[1];
-  drive->enable = (int)array[2];
-  drive->MS1 = (int)array[3];
-  drive->MS2 = (int)array[4];
-  drive->MS3 = (int)array[5];
-  drive->degrees_per_step = array[6];
-  drive->RPM = (int)array[7];
-
-  for (uint8_t i = 0; i < 6; i++) {
-    setPin((int)array[i], OUTPUT);
-  }
-}
-#endif
+// #ifdef MANSET
+// // Deprecated a4988 instatiation methods
+// void setPololu(pololu *drive, int dir, int step, int enable, int MS1, int
+// MS2,
+//                int MS3, double degrees_per_step, int RPM) {
+//   drive->dir = dir;
+//   drive->step = step;
+//   drive->enable = enable;
+//   drive->MS1 = MS1;
+//   drive->MS2 = MS2;
+//   drive->MS3 = MS3;
+//   drive->degrees_per_step = degrees_per_step;
+//   drive->RPM = RPM;
+//   setPin(dir, OUTPUT);
+//   setPin(step, OUTPUT);
+//   setPin(enable, OUTPUT);
+//   setPin(MS1, OUTPUT);
+//   setPin(MS2, OUTPUT);
+//   setPin(MS3, OUTPUT);
+// }
+//
+// A4988 newPololu(int dir, int step, int enable, int MS1, int MS2, int MS3,
+//                 double degrees_per_step, int RPM) {
+//   pololu drive;
+//   drive.dir = dir;
+//   drive.step = step;
+//   drive.enable = enable;
+//   drive.MS1 = MS1;
+//   drive.MS2 = MS2;
+//   drive.MS3 = MS3;
+//   drive.degrees_per_step = degrees_per_step;
+//   drive.RPM = RPM;
+//   setPin(dir, OUTPUT);
+//   setPin(step, OUTPUT);
+//   setPin(enable, OUTPUT);
+//   setPin(MS1, OUTPUT);
+//   setPin(MS2, OUTPUT);
+//   setPin(MS3, OUTPUT);
+//   return drive;
+// }
+// #endif
+//
+// #ifdef SETPOL
+// void setPololuFA(pololu *drive, DriveArray array) {
+//   drive->dir = (int)array[0];
+//   drive->step = (int)array[1];
+//   drive->enable = (int)array[2];
+//   drive->MS1 = (int)array[3];
+//   drive->MS2 = (int)array[4];
+//   drive->MS3 = (int)array[5];
+//   drive->degrees_per_step = array[6];
+//   drive->RPM = (int)array[7];
+//
+//   for (uint8_t i = 0; i < 6; i++) {
+//     setPin((int)array[i], OUTPUT);
+//   }
+// }
+// #endif
 
 A4988 newPololuFA(DriveArray array) {
   pololu drive;
@@ -78,7 +79,7 @@ A4988 newPololuFA(DriveArray array) {
   }
 
   return drive;
-}
+};
 
 void setSpeed(int speed, STEPPER *drive) { drive->motor->RPM = speed; };
 
@@ -96,17 +97,18 @@ void rotateNSteps(int n, STEPPER *drive, int dir) {
     drive->motor->direction = BACKWARD;
     pinOff(drive->motor->dir);
   }
-}
+};
 
 void goToabs(int position, STEPPER *drive) {
   int actual = drive->motor->location;
   int diff = actual - position;
   rotateNSteps(abs(diff), drive, diff < 0 ? FORWARD : BACKWARD);
-}
+};
+
 void goTorel(int percentage, STEPPER *drive) {
   int position = ((float)percentage / 100) * drive->motor->MaxSteps;
   goToabs(position, drive);
-}
+};
 
 void stopPololu(STEPPER *drive) {
   if (drivesInit.onSetup) {
@@ -120,7 +122,7 @@ void stopPololu(STEPPER *drive) {
 #include "uart.h"
         if (UARTSetted) {
           for (uint8_t i = 0; i < NUM_STEPPERS; i++) {
-            printf("PAP[%d] %s %d\n", PAParray[i]->ID, "MaxSteps:\t",
+            printf("PAP[%d] MaxSteps:\t %d\n", PAParray[i]->ID,
                    PAParray[i]->motor->MaxSteps);
           }
         }
@@ -134,27 +136,33 @@ void stopPololu(STEPPER *drive) {
     pinOn(drive->motor->enable);
     drive->enabled = FALSE;
   }
-}
+};
+
+void brake(STEPPER *drive) {
+  drive->motor->stepps = 0;
+  pinOn(drive->motor->enable);
+  drive->enabled = FALSE;
+};
 
 void raceEnd(uint8_t drive, uint8_t which) {
   PAParray[drive]->motor->location =
       which ? PAParray[drive]->motor->MaxSteps : 0;
   stopPololu(PAParray[drive]);
   if (!drivesInit.onSetup) {
-    /* code */
     setSpeed(1, PAParray[drive]);
     rotateNSteps(4, PAParray[drive], !PAParray[drive]->motor->direction);
   }
-}
+};
+
 void PAPsInit(uint8_t speed) {
   drivesInit.onSetup = TRUE;
   for (uint8_t i = 0; i < NUM_STEPPERS; i++) {
     setSpeed(speed, PAParray[i]);
     rotateNSteps(INIT_STEPPS, PAParray[i], FORWARD);
   }
-}
+};
 
-#ifdef POLOLU
+#ifdef POLOLU_TIMER0_OVERFLOW
 
 volatile int RPM;
 volatile int count[NUM_STEPPERS];
@@ -224,5 +232,5 @@ ISR(TIMER0_OVF_vect, ISR_NOBLOCK) {
       }
     }
   }
-}
+};
 #endif

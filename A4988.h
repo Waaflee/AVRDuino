@@ -17,8 +17,7 @@
 typedef struct drives_init {
   uint8_t onSetup;
   uint8_t setted;
-  unsigned int setupCount[NUM_STEPPERS];
-
+  uint8_t setupCount[NUM_STEPPERS];
 } drives_Init;
 drives_Init drivesInit;
 
@@ -83,6 +82,8 @@ void goTorel(int percentage, STEPPER *drive);
 
 //Stops and disables selected drive.
 void stopPololu(STEPPER *drive);
+//Stops pololu no matter if homming
+void brake(STEPPER *drive);
 //Wrapper for stopPololu(), designed for race ends
 void raceEnd(uint8_t drive, uint8_t which);
 
