@@ -12,20 +12,16 @@
 #include <string.h>
 #include "../../variables.h"
 
-
-
 typedef struct drives_init {
   uint8_t onSetup;
   uint8_t setted;
   uint8_t setupCount[NUM_STEPPERS];
 } drives_Init;
+
 drives_Init drivesInit;
 
-// #define MANSET
-// #define SETPOL
-
 //A4988 driver struct and function declarations, you may use the custom pololu
-//type if you find it more convenient.
+//type should you find it more convenient.
 
 typedef struct a4988 {
         int dir;
@@ -55,16 +51,6 @@ typedef struct stepper {
 
 STEPPER *PAParray[NUM_STEPPERS];
 
-//Deprecated a4988 instatiation methods
-#ifdef MANSET
-  //set existing A4988 struct manually or from an existing DriveArray array.
-  void setPololu(pololu *drive, int dir, int step, int enable, int MS1, int MS2,
-                 int MS3, double degrees_per_step, int RPM);
-  //initializes pololu struct manually.
-  A4988 newPololu(int dir, int step, int enable, int MS1, int MS2, int MS3, double degrees_per_step, int RPM);
-  void setPololuFA(pololu *drive, DriveArray array);
-#endif
-
 //initializes pololu struct from a DriveArray array;
 A4988 newPololuFA(DriveArray array);
 
@@ -86,5 +72,5 @@ void stopPololu(STEPPER *drive);
 void brake(STEPPER *drive);
 //Wrapper for stopPololu(), designed for race ends
 void raceEnd(uint8_t drive, uint8_t which);
-
+//Homing routine
 void PAPsInit(uint8_t speed);
