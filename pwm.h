@@ -3,7 +3,7 @@
 #define khz
 #define NaN 65535
 
-#define pt100(x) (uint16_t)(((float)x / 100.0) * NaN)
+#define pt100(x) (uint16_t)((float)((float)x / 100.0) * NaN)
 #define pt1000(x) (uint16_t)(((float)x / 1000.0) * NaN)
 #define pt10(x) (((uint16_t)x * 64) - ((x==1024) ? 1 : 0))
 #define to100(x) (uint16_t)( ((float)x / (float)NaN) * 100.0 + 1)

@@ -32,7 +32,7 @@ void registPWM1(struct pwm1 *pwm) {
   pwm->dutyA = duty_1A;
   pwm->dutyB = duty_1B;
   pwm->freq = freq;
-  pwm->freq(20000);
+  // pwm->freq(1);
 };
 
 struct pwm1 newPWM1(void) {
@@ -46,16 +46,14 @@ uint16_t duty_1A(uint16_t ton) {
   if (ton == NaN) {
     return OCR1A;
   }
-  OCR1A = ton; // == 0 ? 0 : 64 * ton - 1;
-  // OCR1A = ton < 1024 ? 64 * (ton + 1) - 1 : ton;
+  OCR1A = ton;
   return 0;
 };
 uint16_t duty_1B(uint16_t ton) {
   if (ton == NaN) {
     return OCR1B;
   }
-  // OCR1B = ton < 1024 ? 64 * (ton + 1) - 1 : ton;
-  OCR1B = ton; //== 0 ? 0 : 64 * ton - 1;
+  OCR1B = ton;
   return 0;
 };
 
@@ -63,27 +61,29 @@ uint16_t freq(uint16_t Khz) {
   if (Khz == NaN) {
     return ICR1;
   }
-  uint16_t factor;
-  uint8_t PRESCALER = TCCR1B & (_BV(CS01) | _BV(CS00) | _BV(CS02));
-  switch (PRESCALER) {
-  case _BV(CS00):
-    factor = 16000;
-    break;
-  case _BV(CS01):
-    factor = 2000;
-    break;
-  case _BV(CS00) | _BV(CS01):
-    factor = 250;
-    break;
-  case _BV(CS02):
-    factor = 62;
-    break;
-  case _BV(CS02) | _BV(CS00):
-    factor = 16;
-    break;
-  default:
-    factor = 2000;
-    break;
-  }
-  ICR1 = factor / Khz;
+  ICR1 = Khz;
+  // uint16_t factor;
+  // uint8_t PRESCALER = (TCCR1B & (_BV(CS01) | _BV(CS00) | _BV(CS02)));
+  // switch (PRESCALER) {
+  // case (_BV(CS00)):
+  //   factor = 16000;
+  //   break;
+  // case (_BV(CS01)):
+  //   factor = 2000;
+  //   break;
+  // case (_BV(CS00) | _BV(CS01)):
+  //   factor = 250;
+  //   break;
+  // case (_BV(CS02)):
+  //   factor = 62;
+  //   break;
+  // case (_BV(CS02) | _BV(CS00)):
+  //   factor = 16;
+  //   break;
+  // default:
+  //   factor = 2000;
+  //   break;
+  // }
+  // ICR1 = (uint16_t)((float)(float)factor / (float)Khz);
+  return 0;
 };
