@@ -7,7 +7,7 @@ enum EI_TRIGGER {
     LOW_LEVEL = _BV(ISC00),
     ON_CHANGE = _BV(ISC01),
     FALLLING_FLANK = _BV(ISC10),
-    RISING_FLANK = _BV(ISC10)
+    RISING_FLANK = _BV(ISC11)
 };
 
 void (*INT0_handler)();
